@@ -1,0 +1,29 @@
+header{
+  /* position:sticky;
+  top:0; */
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  color: #fff;
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
+header div{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+header div h1{
+  font-size: 24px;
+}
+nav ul{
+  display: flex;
+  justify-content: flex-end;;
+  list-style: none;
+}
+nav ul li{
+  padding-left: 15%;
+  font-size: 13px;
+}
