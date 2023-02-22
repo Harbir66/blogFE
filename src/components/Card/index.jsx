@@ -1,40 +1,75 @@
 import { React, useState } from 'react';
 import './Card.css';
 import PropTypes from 'prop-types';
+import clapWhiteIcon from '../../assets/Icons/clapping.svg';
+import clapFillIcon from '../../assets/Icons/clapping-fill.svg';
+import heartWhiteIcon from '../../assets/Icons/heart-black.svg';
+import heartRedIcon from '../../assets/Icons/heart-red.svg';
+import { UPDATE_BLOG_DATA } from '../../constants/apiEndPoints';
+import makeRequest from '../../utils/makeRequest';
+import { getFormattedDateFromUtcDate } from '../../utils/common';
 
-function Card({ date, readingTime, title, description, claps, liked, image }) {
+function Card({
+  id,
+  date,
+  readingTime,
+  title,
+  description,
+  claps,
+  liked,
+  image,
+}) {
   const [heart, setHeart] = useState(liked);
   const [clapCount, setClapCount] = useState(claps);
   const [clap, setClap] = useState(false);
 
-  const handleClaps = () => {
-    if (!clap) {
-      setClapCount(clapCount + 1);
-      setClap(!clap);
-    } else {
-      setClapCount(clapCount - 1);
-      setClap(!clap);
+  const handleClaps = async () => {
+    try {
+      if (!clap) {
+        await makeRequest(UPDATE_BLOG_DATA(id), {
+          data: {
+            claps: clapCount + 1,
+          },
+        });
+        setClapCount(clapCount + 1);
+        setClap(!clap);
+      } else {
+        await makeRequest(UPDATE_BLOG_DATA(id), {
+          data: {
+            claps: clapCount - 1,
+          },
+        });
+        setClapCount(clapCount - 1);
+        setClap(!clap);
+      }
+    } catch (err) {
+      console.log(err.message);
     }
   };
 
-  const handleHeart = () => {
-    setHeart(!heart);
+  const handleHeart = async () => {
+    try {
+      await makeRequest(UPDATE_BLOG_DATA(id), {
+        data: {
+          liked: !heart,
+        },
+      });
+      setHeart(!heart);
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
-  const heartIcon = heart
-    ? `${process.env.PUBLIC_URL}/Icons/heart-red.svg`
-    : `${process.env.PUBLIC_URL}/Icons/heart-black.svg`;
-  const cardImage = `${process.env.PUBLIC_URL}/Images/${image}`;
-  const clapIcon = clap
-    ? `${process.env.PUBLIC_URL}/Icons/clapping-fill.svg`
-    : `${process.env.PUBLIC_URL}/Icons/clapping.svg`;
-
+  const heartIcon = heart ? heartRedIcon : heartWhiteIcon;
+  const cardImage = image;
+  const clapIcon = clap ? clapFillIcon : clapWhiteIcon;
+  const formattedDate = getFormattedDateFromUtcDate(date);
   return (
     <div className="card">
       <img src={cardImage} alt="" />
       <div className="card-info-container">
         <div className="card-details">
-          <div className="date">{date}</div>
+          <div className="date">{formattedDate}</div>
           <div className="reading-time">{readingTime}</div>
         </div>
         <div className="card-title">{title}</div>
@@ -62,6 +97,7 @@ function Card({ date, readingTime, title, description, claps, liked, image }) {
 export default Card;
 
 Card.propTypes = {
+  id: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired,
   readingTime: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,

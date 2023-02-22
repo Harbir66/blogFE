@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`CardContainer should display error message when some error occurs 1`] = `[Function]`;
+
 exports[`CardContainer should render correctly 1`] = `[Function]`;
