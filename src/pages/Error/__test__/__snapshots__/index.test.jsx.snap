@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error page should render correctly with error Code 1`] = `
+<DocumentFragment>
+  <div
+    class="main"
+  >
+    <header>
+      <div
+        class="padding"
+      >
+        <h1>
+          The Artifact
+        </h1>
+        <p>
+          <em>
+            Culture & Art blog
+          </em>
+        </p>
+      </div>
+      <nav
+        class="padding"
+      >
+        <ul>
+          <li>
+            <a
+              href="./"
+            >
+              Blog
+            </a>
+          </li>
+          <li>
+            <a
+              href="./"
+            >
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              href="./"
+            >
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div
+      class="errorContainer"
+    >
+      <p>
+        Something went wrong!
+      </p>
+      <p>
+        Error code: 404
+      </p>
+    </div>
+    <footer
+      class="padding"
+    >
+      <p>
+        ©artifact.com 2019
+      </p>
+    </footer>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Error page should render correctly without error Code 1`] = `
+<DocumentFragment>
+  <div
+    class="main"
+  >
+    <header>
+      <div
+        class="padding"
+      >
+        <h1>
+          The Artifact
+        </h1>
+        <p>
+          <em>
+            Culture & Art blog
+          </em>
+        </p>
+      </div>
+      <nav
+        class="padding"
+      >
+        <ul>
+          <li>
+            <a
+              href="./"
+            >
+              Blog
+            </a>
+          </li>
+          <li>
+            <a
+              href="./"
+            >
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              href="./"
+            >
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div
+      class="errorContainer"
+    >
+      <p>
+        Something went wrong!
+      </p>
+    </div>
+    <footer
+      class="padding"
+    >
+      <p>
+        ©artifact.com 2019
+      </p>
+    </footer>
+  </div>
+</DocumentFragment>
+`;

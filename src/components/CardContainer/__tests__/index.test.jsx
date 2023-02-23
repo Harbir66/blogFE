@@ -3,6 +3,10 @@ import { render, waitFor, screen } from '@testing-library/react';
 import CardContainer from '..';
 import makeRequest from '../../../utils/makeRequest';
 
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn(),
+}));
+
 const mockData = [
   {
     id: 1,

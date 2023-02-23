@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable import/no-unresolved */
-// eslint-disable-next-line import/extensions
 export { default as Home } from './Home';
+export { default as Error } from './Error';
+export { default as PageNotFound } from './NotFound';

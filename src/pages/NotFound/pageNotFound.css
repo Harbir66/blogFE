@@ -1,0 +1,12 @@
+.main{
+  display:flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+.pageNotFoundContainer {
+  flex:1;
+  margin-top: 33vh;
+  font-size: larger;
+}

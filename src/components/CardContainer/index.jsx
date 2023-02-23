@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import './CardContainer.css';
+import { useNavigate } from 'react-router-dom';
 import Card from '../Card';
 import { GET_BLOG_DATA } from '../../constants/apiEndPoints';
 import makeRequest from '../../utils/makeRequest';
@@ -8,9 +9,10 @@ import makeRequest from '../../utils/makeRequest';
 function CardContainer() {
   const [cardData, setCardData] = React.useState();
   const [error, setError] = React.useState(null);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
-    makeRequest(GET_BLOG_DATA)
+    makeRequest(GET_BLOG_DATA, {}, navigate)
       .then((data) => {
         setCardData(data);
       })

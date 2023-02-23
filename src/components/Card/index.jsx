@@ -43,7 +43,7 @@ function Card({
         setClap(!clap);
       }
     } catch (err) {
-      console.log(err.message);
+      //
     }
   };
 
@@ -56,7 +56,7 @@ function Card({
       });
       setHeart(!heart);
     } catch (err) {
-      console.log(err.message);
+      //
     }
   };
 
