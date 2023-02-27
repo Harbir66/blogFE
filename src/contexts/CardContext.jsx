@@ -1,17 +1,18 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
 import React, { createContext, useState } from 'react';
 import { PropTypes } from 'prop-types';
 
-export const CardContext = createContext({});
+export const BlogPostContext = createContext({});
 
-export function CardProvider({ children }) {
-  const [allCards, setAllCards] = useState(null);
+export function BlogPostProvider({ children }) {
+  const [allBlogsData, setAllBlogsData] = useState(null);
   return (
-    <CardContext.Provider value={{ allCards, setAllCards }}>
+    <BlogPostContext.Provider value={{ allBlogsData, setAllBlogsData }}>
       {children}
-    </CardContext.Provider>
+    </BlogPostContext.Provider>
   );
 }
 
-CardProvider.propTypes = {
+BlogPostProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

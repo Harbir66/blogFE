@@ -1,7 +1,9 @@
 main {
   flex: 1;
-  display: flex;
-  flex-flow: row wrap;
+  /* display: flex;
+  flex-flow: row wrap; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   justify-content: space-evenly;
   margin:20px 0;
   gap:30px 80px;

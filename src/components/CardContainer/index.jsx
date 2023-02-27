@@ -5,16 +5,17 @@ import { useNavigate } from 'react-router-dom';
 import Card from '../Card';
 import { GET_BLOG_DATA } from '../../constants/apiEndPoints';
 import makeRequest from '../../utils/makeRequest';
+import { BlogPostContext } from '../../contexts/CardContext';
 
 function CardContainer() {
-  const [cardData, setCardData] = React.useState();
+  const { allBlogsData, setAllBlogsData } = React.useContext(BlogPostContext);
   const [error, setError] = React.useState(null);
   const navigate = useNavigate();
 
   React.useEffect(() => {
     makeRequest(GET_BLOG_DATA, {}, navigate)
       .then((data) => {
-        setCardData(data);
+        setAllBlogsData(data);
       })
       .catch((err) => {
         setError(err.message);
@@ -23,40 +24,18 @@ function CardContainer() {
 
   if (error) {
     return (
-      <div>
+      <div className="padding">
         <p>{error}</p>
       </div>
     );
   }
 
-  const cards = cardData ? (
-    cardData.map((cardInfo) => {
-      const {
-        id,
-        date,
-        reading_time,
-        title,
-        description,
-        claps,
-        liked,
-        image,
-      } = cardInfo;
-      return (
-        <Card
-          key={id}
-          id={id}
-          date={date}
-          readingTime={reading_time}
-          title={title}
-          description={description}
-          claps={claps}
-          liked={liked}
-          image={image}
-        />
-      );
+  const cards = allBlogsData ? (
+    allBlogsData.map((cardInfo) => {
+      return <Card key={cardInfo.id} blogData={cardInfo} />;
     })
   ) : (
-    <div data-testid="loading">
+    <div data-testid="loading" className="padding">
       <p>Loading...</p>
     </div>
   );

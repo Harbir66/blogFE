@@ -8,4 +8,23 @@ export const getFormattedDateFromUtcDate = (utcDate) => {
   } ${date.getFullYear()}`;
 };
 
+export const getBlogIndexById = (allBlogsData, selectedBlogId) => {
+  const blogIndex = allBlogsData.findIndex(
+    (blog) => blog.id === selectedBlogId
+  );
+  return blogIndex;
+};
+
+export const updateBlogData = (
+  updatedBlogData,
+  allBlogsData,
+  setAllBlogsData
+) => {
+  const blogIndex = getBlogIndexById(allBlogsData, updatedBlogData.id);
+  setAllBlogsData([
+    ...allBlogsData.slice(0, blogIndex),
+    updatedBlogData,
+    ...allBlogsData.slice(blogIndex + 1),
+  ]);
+};
 // export default getFormattedDateFromUtcDate;

@@ -1,89 +1,84 @@
-import { React, useState } from 'react';
+import React, { useContext } from 'react';
 import './Card.css';
 import PropTypes from 'prop-types';
 import clapWhiteIcon from '../../assets/Icons/clapping.svg';
-import clapFillIcon from '../../assets/Icons/clapping-fill.svg';
 import heartWhiteIcon from '../../assets/Icons/heart-black.svg';
 import heartRedIcon from '../../assets/Icons/heart-red.svg';
 import { UPDATE_BLOG_DATA } from '../../constants/apiEndPoints';
 import makeRequest from '../../utils/makeRequest';
-import { getFormattedDateFromUtcDate } from '../../utils/common';
+import {
+  getFormattedDateFromUtcDate,
+  updateBlogData,
+} from '../../utils/common';
+import { BlogPostContext } from '../../contexts/CardContext';
 
-function Card({
-  id,
-  date,
-  readingTime,
-  title,
-  description,
-  claps,
-  liked,
-  image,
-}) {
-  const [heart, setHeart] = useState(liked);
-  const [clapCount, setClapCount] = useState(claps);
-  const [clap, setClap] = useState(false);
+function Card({ blogData }) {
+  const { allBlogsData, setAllBlogsData } = useContext(BlogPostContext);
 
   const handleClaps = async () => {
-    try {
-      if (!clap) {
-        await makeRequest(UPDATE_BLOG_DATA(id), {
+    if (allBlogsData) {
+      try {
+        await makeRequest(UPDATE_BLOG_DATA(blogData.id), {
           data: {
-            claps: clapCount + 1,
+            claps: blogData.claps + 1,
           },
         });
-        setClapCount(clapCount + 1);
-        setClap(!clap);
-      } else {
-        await makeRequest(UPDATE_BLOG_DATA(id), {
-          data: {
-            claps: clapCount - 1,
+        updateBlogData(
+          {
+            ...blogData,
+            claps: blogData.claps + 1,
           },
-        });
-        setClapCount(clapCount - 1);
-        setClap(!clap);
+          allBlogsData,
+          setAllBlogsData
+        );
+      } catch (err) {
+        //
       }
-    } catch (err) {
-      //
     }
   };
 
   const handleHeart = async () => {
-    try {
-      await makeRequest(UPDATE_BLOG_DATA(id), {
-        data: {
-          liked: !heart,
-        },
-      });
-      setHeart(!heart);
-    } catch (err) {
-      //
+    if (allBlogsData) {
+      try {
+        await makeRequest(UPDATE_BLOG_DATA(blogData.id), {
+          data: {
+            liked: !blogData.liked,
+          },
+        });
+        updateBlogData(
+          {
+            ...blogData,
+            liked: !blogData.liked,
+          },
+          allBlogsData,
+          setAllBlogsData
+        );
+      } catch (err) {
+        //
+      }
     }
   };
 
-  const heartIcon = heart ? heartRedIcon : heartWhiteIcon;
-  const cardImage = image;
-  const clapIcon = clap ? clapFillIcon : clapWhiteIcon;
-  const formattedDate = getFormattedDateFromUtcDate(date);
+  const heartIcon = blogData.liked ? heartRedIcon : heartWhiteIcon;
+  const cardImage = blogData.image;
+  const clapIcon = clapWhiteIcon;
+  const formattedDate = getFormattedDateFromUtcDate(blogData.date);
+
   return (
     <div className="card">
       <img src={cardImage} alt="" />
       <div className="card-info-container">
         <div className="card-details">
           <div className="date">{formattedDate}</div>
-          <div className="reading-time">{readingTime}</div>
+          <div className="reading-time">{blogData.reading_time}</div>
         </div>
-        <div className="card-title">{title}</div>
-        <div className="card-description">{description}</div>
+        <div className="card-title">{blogData.title}</div>
+        <div className="card-description">{blogData.description}</div>
         <hr />
         <div className="card-reactions">
-          <button
-            type="button"
-            className="clappings"
-            onClick={handleClaps}
-            style={{ color: clap ? '#127996' : '#5e5e5e' }}
-          >
+          <button type="button" className="clappings" onClick={handleClaps}>
             <img src={clapIcon} alt="clappings-icon" />
-            {clapCount}
+            {blogData.claps}
           </button>
           <button className="heart" type="button" onClick={handleHeart}>
             <img src={heartIcon} alt="heart-icon" />
@@ -97,12 +92,14 @@ function Card({
 export default Card;
 
 Card.propTypes = {
-  id: PropTypes.number.isRequired,
-  date: PropTypes.string.isRequired,
-  readingTime: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  claps: PropTypes.number.isRequired,
-  liked: PropTypes.bool.isRequired,
-  image: PropTypes.string.isRequired,
+  blogData: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    date: PropTypes.string.isRequired,
+    reading_time: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    claps: PropTypes.number.isRequired,
+    liked: PropTypes.bool.isRequired,
+    image: PropTypes.string.isRequired,
+  }).isRequired,
 };

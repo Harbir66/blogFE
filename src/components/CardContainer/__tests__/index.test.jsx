@@ -2,6 +2,10 @@ import React from 'react';
 import { render, waitFor, screen } from '@testing-library/react';
 import CardContainer from '..';
 import makeRequest from '../../../utils/makeRequest';
+import {
+  BlogPostContext,
+  BlogPostProvider,
+} from '../../../contexts/CardContext';
 
 jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn(),
@@ -34,7 +38,11 @@ jest.mock('../../../utils/makeRequest');
 describe('CardContainer', () => {
   it('should render correctly', async () => {
     makeRequest.mockResolvedValue(mockData);
-    const { asFragment } = render(<CardContainer />);
+    const { asFragment } = render(
+      <BlogPostContext.Provider>
+        <CardContainer />
+      </BlogPostContext.Provider>
+    );
     await waitFor(() => {
       expect(screen.getByText('Mock Title 1')).toBeInTheDocument();
     });
@@ -42,7 +50,11 @@ describe('CardContainer', () => {
   });
   it('should display error message when some error occurs', async () => {
     makeRequest.mockRejectedValue({ message: 'Error' });
-    const { asFragment } = render(<CardContainer />);
+    const { asFragment } = render(
+      <BlogPostContext.Provider>
+        <CardContainer />
+      </BlogPostContext.Provider>
+    );
     await waitFor(() => {
       expect(screen.getByText('Error')).toBeInTheDocument();
     });
@@ -50,7 +62,11 @@ describe('CardContainer', () => {
   });
   it('should display loading message when data is being fetched', async () => {
     makeRequest.mockResolvedValue(mockData);
-    render(<CardContainer />);
+    render(
+      <BlogPostContext.Provider>
+        <CardContainer />
+      </BlogPostContext.Provider>
+    );
     expect(screen.getByText('Loading...')).toBeTruthy();
     await waitFor(() => {
       expect(screen.getByText('Mock Title 1')).toBeTruthy();
